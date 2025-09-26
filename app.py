@@ -87,7 +87,7 @@ def update_item():
     return jsonify({'success': False, 'error': 'Item not found'}), 404
 
 # Painel do Admin
-@app.route('/checklist')
+@app.route('/ranking')
 def admin():
     teams = Team.query.all()
     total_items = ChecklistItem.query.count()
@@ -104,7 +104,7 @@ def admin():
     # Ordena o ranking por progresso
     ranking.sort(key=lambda x: x['progress'], reverse=True)
     
-    return render_template('admin.html', ranking=ranking)
+    return render_template('ranking.html', ranking=ranking)
 
 # Rota de Logout
 @app.route('/logout')
