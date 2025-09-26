@@ -352,3 +352,18 @@ body::before {
     border-radius: 3px;
     transition: width 0.5s ease-in-out;
 }
+
+/* 7. ESTILOS DOS LOGOS */
+
+/* Logo da Página de Login */
+.login-logo {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 1.5rem; 
+}
+
+/* Logo do Cabeçalho (Brasão) */
+.header-logo {
+  height: 40px;
+  width: auto; 
+}
