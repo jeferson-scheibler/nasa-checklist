@@ -170,4 +170,4 @@ def setup_database(app):
 
 if __name__ == '__main__':
     setup_database(app)
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0')
