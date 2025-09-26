@@ -87,7 +87,7 @@ def update_item():
     return jsonify({'success': False, 'error': 'Item not found'}), 404
 
 # Painel do Admin
-@app.route('/admin')
+@app.route('/checklist')
 def admin():
     teams = Team.query.all()
     total_items = ChecklistItem.query.count()
