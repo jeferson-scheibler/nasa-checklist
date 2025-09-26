@@ -1,29 +1,32 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Painel do Admin - Progresso das Equipes</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <h1>Progresso dos Esquadrões</h1>
-    <table border="1">
+{% extends "base.html" %}
+
+{% block title %}Painel do Admin - Progresso das Equipes{% endblock %}
+
+{% block content %}
+    <h1>Relatório de Progresso dos Esquadrões</h1>
+
+    <table class="progress-table">
         <thead>
             <tr>
                 <th>Ranking</th>
-                <th>Equipe</th>
-                <th>Progresso</th>
+                <th>Esquadrão</th>
+                <th>Progresso da Missão</th>
             </tr>
         </thead>
         <tbody>
             {% for team in ranking %}
-            <tr>
-                <td>{{ loop.index }}</td>
+            <tr class="{% if loop.index <= 3 %}top-rank{% endif %}">
+                <td>#{{ loop.index }}</td>
                 <td>{{ team.name }}</td>
-                <td>{{ "%.2f"|format(team.progress) }}%</td>
+                <td>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" style="width: {{ team.progress|int }}%;">
+                            {{ "%.2f"|format(team.progress) }}%
+                        </div>
+                    </div>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% endblock %}

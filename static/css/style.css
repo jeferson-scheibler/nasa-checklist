@@ -1,98 +1,354 @@
+/* static/css/style.css */
+
+/* --- MISSION CONTROL DESIGN SYSTEM V1.0 --- */
+
+/* 1. VARIÁVEIS DE COR E FONTE */
+:root {
+  --color-background: #151622;
+  --color-primary-text: #2491FF;
+  --color-panel-border: #1A4480;
+  --color-accent: #FF580A;
+  --color-status-success: #E7F434;
+  --color-status-alert: #8B0A03;
+  --color-white: #FFFFFF;
+  --font-primary: 'Fira Code', monospace;
+}
+
+/* 2. RESET BÁSICO E CONFIGURAÇÃO DO FUNDO */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    background-color: #0d1117;
-    color: #c9d1d9;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-primary-text);
+  font-family: var(--font-primary);
+  position: relative;
+  z-index: 1;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  /* O caminho correto para o asset no Flask CSS */
+  background-image: url('../assets/orbits.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  opacity: 0.05;
+  z-index: -1;
+}
+
+.content-area {
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
+    width: 100%;
 }
 
-h1 {
-    color: #58a6ff;
-    border-bottom: 2px solid #30363d;
-    padding-bottom: 10px;
+/* 3. ESTILOS DO CABEÇALHO (MAIN HEADER) */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-panel-border);
+  background-color: rgba(21, 22, 34, 0.6);
+  backdrop-filter: blur(5px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
+.main-header .logo h1 {
+  font-size: 1.25rem;
+  color: var(--color-white);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.mission-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--color-status-success);
+  box-shadow: 0 0 8px var(--color-status-success);
+  animation: pulse 2s infinite;
+}
+
+.status-text {
+  color: var(--color-status-success);
+  font-weight: bold;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 5px var(--color-status-success); }
+  50% { box-shadow: 0 0 12px var(--color-status-success); }
+  100% { box-shadow: 0 0 5px var(--color-status-success); }
+}
+
+/* 4. ESTILOS DO CONTEÚDO DA CHECKLIST */
+
+/* Título Principal */
+.content-area h1 {
+  font-size: 1.75rem;
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  border-bottom: 2px solid var(--color-panel-border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Cronômetro (Countdown) */
 #countdown {
-    font-size: 3em;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--color-status-success);
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-panel-border);
+  margin-bottom: 2.5rem;
+  text-shadow: 0 0 10px var(--color-status-success);
+  width: 500px;
+  max-width: 90%;
+  text-align: center;
+}
+
+/* Lista de Tarefas (UL) */
+.content-area ul {
+  list-style: none;
+  width: 700px;
+  max-width: 90%;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 8px;
+  padding: 1rem;
+  position: relative; /* Para o nosso pattern de fundo */
+  background-color: rgba(26, 68, 128, 0.1);
+}
+
+.content-area ul::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url('../assets/code.svg');
+  opacity: 0.04; /* Pattern de código super sutil */
+  z-index: -1;
+  border-radius: 8px;
+}
+
+
+/* Itens da Lista (LI) */
+.content-area li {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(26, 68, 128, 0.4);
+  transition: background-color 200ms ease-in-out;
+}
+
+.content-area li:last-child {
+  border-bottom: none; /* Remove a borda do último item */
+}
+
+.content-area li:hover {
+  background-color: rgba(36, 145, 255, 0.15); /* Efeito de hover */
+}
+
+/* Checkbox Customizado */
+.content-area input[type="checkbox"] {
+  /* Esconde o checkbox padrão */
+  appearance: none;
+  -webkit-appearance: none;
+  
+  /* Cria nossa própria aparência */
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--color-primary-text);
+  border-radius: 4px;
+  margin-right: 15px;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0; /* Impede que o checkbox encolha */
+  transition: all 150ms ease-in-out;
+}
+
+.content-area input[type="checkbox"]:hover {
+    border-color: var(--color-status-success);
+}
+
+/* Estilo do checkbox quando marcado */
+.content-area input[type="checkbox"]:checked {
+  background-color: var(--color-status-success);
+  border-color: var(--color-status-success);
+}
+
+/* Cria o "check" (✓) usando um pseudo-elemento */
+.content-area input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 7px;
+  width: 6px;
+  height: 12px;
+  border: solid var(--color-background);
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+/* Estilo do texto do item quando marcado */
+.content-area input[type="checkbox"]:checked + label {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+/* Link de Logout */
+.content-area a {
+    color: var(--color-accent);
+    text-decoration: none;
+    margin-top: 2rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-accent);
+    border-radius: 6px;
     font-weight: bold;
-    color: #f0f6fc;
-    background-color: #161b22;
-    padding: 20px 40px;
-    border-radius: 10px;
-    border: 1px solid #30363d;
-    margin-bottom: 30px;
+    text-transform: uppercase;
+    transition: all 200ms ease-in-out;
 }
 
-form {
-    background-color: #161b22;
-    padding: 30px;
-    border-radius: 8px;
-    border: 1px solid #30363d;
-    width: 350px;
+.content-area a:hover {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    box-shadow: 0 0 15px var(--color-accent);
 }
 
-label {
+/* 5. ESTILOS DO FORMULÁRIO DE LOGIN */
+
+.login-form {
+  width: 500px;
+  max-width: 90%;
+  padding: 2rem;
+  border: 1px solid var(--color-panel-border);
+  border-radius: 8px;
+  background-color: rgba(26, 68, 128, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.login-form select, 
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-panel-border);
+  background-color: var(--color-background);
+  color: var(--color-primary-text);
+  font-family: var(--font-primary);
+  font-size: 1rem;
+}
+
+.login-form select:focus, 
+.login-form input[type="password"]:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+}
+
+.button-accent {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-family: var(--font-primary);
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+}
+
+.button-accent:hover {
+  box-shadow: 0 0 15px var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.error-message {
+  color: var(--color-status-alert);
+  text-align: center;
+  margin-top: 1rem;
+  background-color: rgba(139, 10, 3, 0.2);
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+/* 6. ESTILOS DA TABELA DO ADMIN */
+
+.progress-table {
+  width: 800px;
+  max-width: 90%;
+  border-collapse: collapse;
+  border: 1px solid var(--color-panel-border);
+  background-color: rgba(26, 68, 128, 0.1);
+}
+
+.progress-table th, .progress-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-panel-border);
+}
+
+.progress-table thead th {
+  color: var(--color-white);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.progress-table .top-rank td {
     font-weight: bold;
+    color: var(--color-status-success);
 }
 
-select, input[type="password"] {
+.progress-bar-container {
     width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 20px;
-    border-radius: 6px;
-    border: 1px solid #30363d;
-    background-color: #0d1117;
-    color: #c9d1d9;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 4px;
+    height: 24px;
+    border: 1px solid var(--color-panel-border);
 }
 
-button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    background-color: #238636;
-    color: white;
-    font-weight: bold;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #2ea043;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    width: 500px;
-}
-
-li {
-    background-color: #161b22;
-    padding: 15px;
-    border: 1px solid #30363d;
-    border-radius: 6px;
-    margin-bottom: 10px;
+.progress-bar {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+    height: 100%;
     display: flex;
     align-items: center;
-}
-
-input[type="checkbox"] {
-    margin-right: 15px;
-    transform: scale(1.5); /* Aumenta o tamanho do checkbox */
-}
-
-a {
-    color: #58a6ff;
-    text-decoration: none;
-    margin-top: 20px;
-}
-
-a:hover {
-    text-decoration: underline;
+    justify-content: center;
+    font-size: 0.8rem;
+    border-radius: 3px;
+    transition: width 0.5s ease-in-out;
 }

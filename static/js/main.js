@@ -1,5 +1,5 @@
 // Cronômetro de Contagem Regressiva
-const deadline = new Date("Oct 5, 2025 23:59:00").getTime();
+const deadline = new Date("Oct 5, 2025 23:59:59").getTime();
 const countdownElement = document.getElementById("countdown");
 
 if (countdownElement) {
