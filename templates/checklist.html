@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Checklist - {{ session.team_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div id="countdown"></div>
+    
+    <h1>Checklist da Missão: {{ session.team_name }}</h1>
+    
+    <ul>
+    {% for item in items %}
+        <li>
+            <input type="checkbox" 
+                   id="item-{{ item.id }}" 
+                   data-item-id="{{ item.id }}" 
+                   {% if progress_map[item.id] %}checked{% endif %}
+                   onchange="updateItem(this)">
+            <label for="item-{{ item.id }}">{{ item.description }}</label>
+        </li>
+    {% endfor %}
+    </ul>
+    
+    <a href="{{ url_for('logout') }}">Sair</a>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel do Admin - Progresso das Equipes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Progresso dos Esquadrões</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Ranking</th>
+                <th>Equipe</th>
+                <th>Progresso</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for team in ranking %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ team.name }}</td>
+                <td>{{ "%.2f"|format(team.progress) }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
