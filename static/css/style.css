@@ -678,7 +678,7 @@ body::before {
   border-color: rgba(0, 255, 136, 0.7);
 }
 
-.status-text {
+.status-.checkbox-container .status-text {
   margin-top: 30px;
   font-size: 16px;
   font-weight: 500;
@@ -688,7 +688,7 @@ body::before {
   transition: all 0.3s ease;
 }
 
-.status-text::before {
+.checkbox-container .status-text::before {
   content: "SYSTEM DEACTIVATED";
   position: absolute;
   top: 0;
