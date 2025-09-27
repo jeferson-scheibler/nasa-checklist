@@ -43,16 +43,26 @@ class PitchInterest(db.Model):
 
 # --- Rotas da Aplicação (As "Páginas") ---
 
-# Página de Login
-@app.route('/', methods=['GET', 'POST'])
+# ROTA 1: Nova Página de Entrada (Splash Screen)
+@app.route('/')
+def index():
+    # A página de entrada não faz nada além de renderizar o template.
+    # A lógica de redirecionamento está no próprio botão dentro de index.html
+    return render_template('index.html')
+
+# ROTA 2: Página de Login, agora em /login
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    # Se o utilizador já está logado e tenta aceder a /login, redireciona para o checklist
+    if 'team_id' in session:
+        return redirect(url_for('checklist'))
+
     if request.method == 'POST':
         team_name = request.form['team_name']
         password = request.form['password']
-        
+
         team = Team.query.filter_by(name=team_name).first()
-        
-        # Simples verificação de senha
+
         if team and team.password == password:
             session['team_id'] = team.id
             session['team_name'] = team.name
@@ -70,7 +80,6 @@ def checklist():
         return redirect(url_for('login'))
 
     # --- LÓGICA DO PITCH ---
-    # Defina a data e hora de ativação
     pitch_activation_time = datetime(2025, 10, 5, 9, 30, 0)
     now = datetime.now()
     show_pitch_signup = now >= pitch_activation_time
