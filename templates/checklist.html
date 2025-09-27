@@ -9,14 +9,22 @@
     
     <ul>
     {% for item in items %}
-        <li>
-            <input type="checkbox" 
-                   id="item-{{ item.id }}" 
-                   data-item-id="{{ item.id }}" 
-                   {% if progress_map[item.id] %}checked{% endif %}
-                   onchange="updateItem(this)">
-            <label for="item-{{ item.id }}">{{ item.description }}</label>
-        </li>
+    <li class="glitch-checkbox-item"> <label class="glitch-checkbox-container">
+            <input type="checkbox"
+                id="item-{{ item.id }}"
+                data-item-id="{{ item.id }}"
+                onchange="updateItem(this)"
+                {% if progress_map[item.id] %}checked{% endif %}>
+
+            <div class="checkbox-box">
+                <div class="checkbox-mark"></div>
+            </div>
+
+            <span class="checkbox-label" data-text="{{ item.description }}">
+                {{ item.description }}
+            </span>
+        </label>
+    </li>
     {% endfor %}
     </ul>
 
