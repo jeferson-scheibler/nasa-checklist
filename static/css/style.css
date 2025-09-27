@@ -1264,6 +1264,8 @@ body::before {
 
 /* 9. ESTILOS DA PÁGINA DE ENTRADA (SPLASH SCREEN) */
 .splash-screen {
+    width: 100vw;
+    height: 100vh;
     overflow: hidden; /* Esconde as estrelas que saem da tela */
     background-color: #000; /* Fundo preto para o espaço */
 }
