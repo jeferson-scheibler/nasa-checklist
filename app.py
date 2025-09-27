@@ -71,7 +71,7 @@ def checklist():
 
     # --- LÓGICA DO PITCH ---
     # Defina a data e hora de ativação
-    pitch_activation_time = datetime(2025, 10, 5, 9, 30, 0)
+    pitch_activation_time = datetime(2025, 9, 27, 9, 30, 0)
     now = datetime.now()
     show_pitch_signup = now >= pitch_activation_time
 
