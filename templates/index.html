@@ -16,11 +16,27 @@
     <div class="entry-content">
         <img src="{{ url_for('static', filename='assets/logo_horizontal.svg') }}" alt="Brasão da Missão" class="splash-logo">
 
-        {% if session.team_name %}
-            <a href="{{ url_for('checklist') }}" class="button-accent">Voltar à Missão</a>
-        {% else %}
-            <a href="{{ url_for('login') }}" class="button-accent">Entrar na Nave</a>
-        {% endif %}
+        <div class="button-container">
+            <div class="button-hexagons"><div class="hexagon"></div><div class="hexagon"></div><div class="hexagon"></div><div class="hexagon"></div><div class="hexagon"></div><div class="hexagon"></div></div>
+            <div class="digital-glyphs"><div class="digital-glyph">0x89F2 EXEC PROTOCOL</div><div class="digital-glyph">SYS.QUANTUM.INIT()</div><div class="digital-glyph">01011010 01000001 01010000 01010101 01010011 01001011</div><div class="digital-glyph">HOLO-CONN INITIALIZED</div></div>
+
+            {% if session.team_name %}
+                <a href="{{ url_for('checklist') }}" class="holo-button">
+                    <div class="button-text">Voltar à Missão</div>
+                    {% else %}
+                <a href="{{ url_for('login') }}" class="holo-button">
+                    <div class="button-text">Entrar na Nave</div>
+                    {% endif %}
+                    <div class="holo-glow"></div>
+                    <div class="button-glitch"></div>
+                    <div class="corner-accents"><div class="corner-accent"></div><div class="corner-accent"></div><div class="corner-accent"></div><div class="corner-accent"></div></div>
+                    <div class="holo-lines"><div class="holo-line"></div><div class="holo-line"></div><div class="holo-line"></div><div class="holo-line"></div></div>
+                    <div class="scan-line"></div>
+                    <div class="holo-particles"><div class="holo-particle"></div><div class="holo-particle"></div><div class="holo-particle"></div><div class="holo-particle"></div><div class="holo-particle"></div><div class="holo-particle"></div></div>
+                </a>
+
+            <div class="sound-wave"><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div></div>
+        </div>
     </div>
 </body>
 </html>
