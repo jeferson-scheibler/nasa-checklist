@@ -1,11 +1,17 @@
 # app.py
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 
 # --- Configuração Inicial ---
 app = Flask(__name__)
+
+@app.before_request
+def before_request():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=30)
+
 # Chave secreta para gerenciar sessões de login
 app.config['SECRET_KEY'] = 'nasa-space-apps-lajeado-2025-tecnovates'
 # Caminho do banco de dados
@@ -29,6 +35,11 @@ class TeamProgress(db.Model):
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
     item_id = db.Column(db.Integer, db.ForeignKey('checklist_item.id'), nullable=False)
     is_complete = db.Column(db.Boolean, default=False)
+
+class PitchInterest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
 # --- Rotas da Aplicação (As "Páginas") ---
 
@@ -58,14 +69,28 @@ def checklist():
     if 'team_id' not in session:
         return redirect(url_for('login'))
 
+    # --- LÓGICA DO PITCH ---
+    # Defina a data e hora de ativação
+    pitch_activation_time = datetime(2025, 10, 5, 9, 30, 0)
+    now = datetime.now()
+    show_pitch_signup = now >= pitch_activation_time
+
     team_id = session['team_id']
+    # Verifique se a equipa já demonstrou interesse
+    has_interest = PitchInterest.query.filter_by(team_id=team_id).first() is not None
+    # ------------------------
+
     items = ChecklistItem.query.order_by(ChecklistItem.order).all()
     progress = TeamProgress.query.filter_by(team_id=team_id).all()
-    
-    # Mapeia o progresso para fácil acesso no HTML
+
     progress_map = {p.item_id: p.is_complete for p in progress}
-    
-    return render_template('checklist.html', items=items, progress_map=progress_map)
+
+    # Passe as novas variáveis para o template
+    return render_template('checklist.html', 
+                           items=items, 
+                           progress_map=progress_map,
+                           show_pitch_signup=show_pitch_signup,
+                           has_interest=has_interest)
 
 # Rota para atualizar um item do checklist (usada pelo JavaScript)
 @app.route('/update_item', methods=['POST'])
@@ -111,6 +136,39 @@ def admin():
 def logout():
     session.clear()
     return redirect(url_for('login'))
+
+@app.route('/toggle_pitch_interest', methods=['POST'])
+def toggle_pitch_interest():
+    if 'team_id' not in session:
+        return jsonify({'success': False, 'error': 'Not logged in'}), 401
+
+    team_id = session['team_id']
+    interest = PitchInterest.query.filter_by(team_id=team_id).first()
+
+    if interest:
+        # Se já existe, remove (desistiu)
+        db.session.delete(interest)
+        db.session.commit()
+        return jsonify({'success': True, 'status': 'removed'})
+    else:
+        # Se não existe, adiciona (inscreveu-se)
+        new_interest = PitchInterest(team_id=team_id)
+        db.session.add(new_interest)
+        db.session.commit()
+        return jsonify({'success': True, 'status': 'added'})
+
+@app.route('/pitch_list')
+def pitch_list():
+    if 'team_id' not in session:
+        return redirect(url_for('login'))
+
+    # Busca todas as equipas inscritas, ordenadas pela hora de inscrição
+    interested_teams_query = db.session.query(PitchInterest, Team).join(Team, PitchInterest.team_id == Team.id).order_by(PitchInterest.timestamp).all()
+
+    # Extrai os nomes e a ordem
+    pitch_lineup = [(index + 1, team.name) for index, (interest, team) in enumerate(interested_teams_query)]
+
+    return render_template('pitch_list.html', pitch_lineup=pitch_lineup)
 
 # --- Função para Iniciar o Banco de Dados ---
 def setup_database(app):

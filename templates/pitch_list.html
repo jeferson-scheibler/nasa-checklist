@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Ordem para o Pré-Pitch{% endblock %}
+
+{% block content %}
+    <h1>Ordem de Apresentação - Pré-Pitch</h1>
+    <p class="subtitle">A ordem é definida pela hora de inscrição.</p>
+
+    <table class="progress-table">
+        <thead>
+            <tr>
+                <th>Ordem</th>
+                <th>Esquadrão</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for position, team_name in pitch_lineup %}
+            <tr>
+                <td>#{{ position }}</td>
+                <td>{{ team_name }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="2" style="text-align:center;">Nenhum esquadrão inscrito ainda.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

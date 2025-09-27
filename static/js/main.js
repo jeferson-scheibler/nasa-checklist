@@ -43,3 +43,22 @@ function updateItem(checkbox) {
         }
     });
 }
+
+function togglePitchInterest(checkbox) {
+    fetch('/toggle_pitch_interest', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (!data.success) {
+            alert('Erro ao atualizar. Tente novamente.');
+            checkbox.checked = !checkbox.checked; // Reverte a mudança se der erro
+        } else {
+            // Opcional: pode adicionar um feedback visual aqui se desejar
+            console.log('Status da inscrição alterado:', data.status);
+        }
+    });
+}
