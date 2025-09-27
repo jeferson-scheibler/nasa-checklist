@@ -1277,14 +1277,17 @@ body::before {
 
 .entry-content {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 20; /* Garante que o conteúdo fica sobre a animação */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 2rem;
+    align-items: center;           /* Centraliza horizontalmente */
+    justify-content: space-between;  /* Empurra o 1º item para cima e o último para baixo */
+    padding: 5vh 2rem;               /* Adiciona um espaçamento vertical das bordas */
+    box-sizing: border-box;          /* Garante que o padding não aumente o tamanho total */
 }
 
 .splash-logo {
