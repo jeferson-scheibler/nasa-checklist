@@ -86,7 +86,7 @@ body::before {
   animation: pulse 2s infinite;
 }
 
-.status-text {
+.mission-status .status-text {
   color: var(--color-status-success);
   font-weight: bold;
 }
